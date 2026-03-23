@@ -1,0 +1,25 @@
+{
+  "name": "orkut_vnw",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "check": "ultracite check",
+    "fix": "ultracite fix"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^17.3.1",
+    "express": "^5.2.1",
+    "pg": "^8.20.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.4.7",
+    "nodemon": "^3.1.14",
+    "ultracite": "7.3.2"
+  }
+}
