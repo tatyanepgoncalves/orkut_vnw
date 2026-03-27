@@ -71,3 +71,23 @@ app.put('/posts/:id', async (req, res) => {
     return res.status(500).json({ error: 'Erro ao atualizar post.' })
   }
 })
+
+app.delete('/posts/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+
+    const result = await pool.query(
+      // biome-ignore lint/style/noUnusedTemplateLiteral: This is SQL command
+      `DELETE FROM post WHERE id=$1 RETURNING *`,
+      [id]
+    )
+
+    return res.status(200).json({
+      mensagem: 'Post excluído com sucesso.',
+      post: result.rows[0],
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ error: 'Erro ao excluir post.' })
+  }
+})
