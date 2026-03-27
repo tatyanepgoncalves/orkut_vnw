@@ -14,6 +14,7 @@ app.get('/posts', async (_, res) => {
   try {
     const result = await pool.query(`
         SELECT 
+          post.id,
           usuarios.nome,
           post.conteudo,
           post.criado_em
@@ -47,5 +48,26 @@ app.post('/posts', async (req, res) => {
   } catch (error) {
     console.log(error)
     return res.status(500).json({ error: 'Erro ao criar post.' })
+  }
+})
+
+app.put('/posts/:id', async (req, res) => {
+  try {
+    const { id } = req.params
+    const { titulo, conteudo } = req.body
+
+    const result = await pool.query(
+      // biome-ignore lint/style/noUnusedTemplateLiteral: This is SQL command
+      `UPDATE post SET titulo=$1, conteudo=$2 WHERE id=$3  RETURNING *`,
+      [titulo, conteudo, id]
+    )
+
+    return res.status(200).json({
+      mensagem: 'Post atualizado com sucesso.',
+      post: result.rows[0],
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ error: 'Erro ao atualizar post.' })
   }
 })
