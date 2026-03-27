@@ -8,6 +8,22 @@ app.get('/', (_, res) => {
   return res.json({ message: 'Hello, World!' })
 })
 
+app.get('/usuarios', async (_, res) => {
+  await new Promise((resolve) => setTimeout(resolve, 1000))
+
+  try {
+    const result = await pool.query(
+      // biome-ignore lint/style/noUnusedTemplateLiteral: this code is SQL command
+      `SELECT * FROM usuarios`
+    )
+
+    return res.status(200).json(result.rows)
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ error: 'Error occurred' })
+  }
+})
+
 app.get('/posts', async (_, res) => {
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
