@@ -24,6 +24,26 @@ app.get('/usuarios', async (_, res) => {
   }
 })
 
+app.post('/usuarios', async (req, resp) => {
+  try {
+    const { nome, email, senha } = req.body
+
+    const result = await pool.query(
+      // biome-ignore lint/style/noUnusedTemplateLiteral: this code is SQL command
+      `INSERT INTO usuarios (nome, email, senha) VALUES ($1, $2, $3) RETURNING *`,
+      [nome, email, senha]
+    )
+
+    return resp.status(201).json({
+      mensagem: 'Usuário criado com sucesso.',
+      usuario: result.rows[0],
+    })
+  } catch (error) {
+    console.log(error)
+    return resp.status(500).json({ error: 'Erro ao criar usuário.' })
+  }
+})
+
 app.get('/posts', async (_, res) => {
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
