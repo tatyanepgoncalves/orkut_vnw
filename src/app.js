@@ -8,7 +8,7 @@ app.get('/', (_, res) => {
   return res.json({ message: 'Hello, World!' })
 })
 
-app.get('/post', async (_, res) => {
+app.get('/posts', async (_, res) => {
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
   try {
@@ -27,5 +27,25 @@ app.get('/post', async (_, res) => {
   } catch (error) {
     console.log(error)
     return res.status(500).json({ error: 'Error occurred' })
+  }
+})
+
+app.post('/posts', async (req, res) => {
+  try {
+    const { titulo, conteudo, usuario_id } = req.body
+
+    const result = await pool.query(
+      // biome-ignore lint/style/noUnusedTemplateLiteral: this code is SQL command
+      `INSERT INTO post (titulo, conteudo, usuario_id) VALUES ($1, $2, $3) RETURNING *`,
+      [titulo, conteudo, usuario_id]
+    )
+
+    return res.status(201).json({
+      mensagem: 'Post criado com sucesso.',
+      post: result.rows[0],
+    })
+  } catch (error) {
+    console.log(error)
+    return res.status(500).json({ error: 'Erro ao criar post.' })
   }
 })
