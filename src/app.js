@@ -65,6 +65,26 @@ app.put('/usuarios/:id', async (req, resp) => {
   }
 })
 
+app.delete('/usuarios/:id', async (req, resp) => {
+  try {
+    const { id } = req.params
+
+    const result = await pool.query(
+      // biome-ignore lint/style/noUnusedTemplateLiteral: this code is SQL command
+      `DELETE FROM usuarios WHERE id=$1`,
+      [id]
+    )
+
+    return resp.status(200).json({
+      mensagem: 'Usuário excluído com sucesso.',
+      usuario: result.rows[0],
+    })
+  } catch (error) {
+    console.log(error)
+    return resp.status(500).json({ error: 'Erro ao excluir usuário.' })
+  }
+})
+
 app.get('/posts', async (_, res) => {
   await new Promise((resolve) => setTimeout(resolve, 1000))
 
