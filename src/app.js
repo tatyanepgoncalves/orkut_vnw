@@ -1,5 +1,6 @@
 import express from 'express'
 import { pool } from './config/db.js'
+import { validatePost } from './validacao/post.js'
 
 export const app = express()
 app.use(express.json())
@@ -108,7 +109,7 @@ app.get('/posts', async (_, res) => {
   }
 })
 
-app.post('/posts', async (req, res) => {
+app.post('/posts', validatePost, async (req, res) => {
   try {
     const { titulo, conteudo, usuario_id } = req.body
 
@@ -128,7 +129,7 @@ app.post('/posts', async (req, res) => {
   }
 })
 
-app.put('/posts/:id', async (req, res) => {
+app.put('/posts/:id', validatePost, async (req, res) => {
   try {
     const { id } = req.params
     const { titulo, conteudo } = req.body
