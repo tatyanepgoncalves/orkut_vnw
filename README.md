@@ -1,9 +1,5 @@
 <div align="center" id="top"> 
-  <!-- <img src="./.github/app.gif" alt="Orkut_vnw" /> -->
-
-  &#xa0;
-
-  <!-- <a href="https://orkut_vnw.netlify.com">Demo</a> -->
+  <a href="https://orkut-vnw.onrender.com/" target="_blank">Link do Deploy</a>
 </div>
 
 <h1 align="center">Orkut_vnw</h1>
@@ -17,14 +13,10 @@
 
   <img alt="Licença" src="https://img.shields.io/github/license/tatyanepgoncalves/orkut_vnw?color=56BEB8">
 
-  <!-- <img alt="Github issues" src="https://img.shields.io/github/issues/tatyanepgoncalves/orkut_vnw?color=56BEB8" /> -->
-
-  <!-- <img alt="Github forks" src="https://img.shields.io/github/forks/tatyanepgoncalves/orkut_vnw?color=56BEB8" /> -->
-
-  <!-- <img alt="Github stars" src="https://img.shields.io/github/stars/tatyanepgoncalves/orkut_vnw?color=56BEB8" /> -->
+  <img alt="Github issues" src="https://img.shields.io/github/issues/tatyanepgoncalves/orkut_vnw?color=56BEB8" />
+  
 </p>
 
-<!-- Status -->
 
 <h4 align="center"> 
 	🚧  Orkut_vnw 🚀 Em construção...  🚧
@@ -50,16 +42,16 @@ Projeto backend para aplicar os conhecimentos adquiridos durante o curso de back
 
 ## :sparkles: Funcionalidades
 
-:heavy_check_mark: Lista todos os usuários criados;
-:heavy_check_mark: Cria um novo usuário;
-:heavy_check_mark: Atualiza um usuário pelo id;
-:heavy_check_mark: Deleta um usuário pelo id;
-:heavy_check_mark: Lista todos os posts dos usuários criados;
-:heavy_check_mark: Cria um novo post de acordo com id do usuário;
-:heavy_check_mark: Atualiza um post pelo id;
-:heavy_check_mark: Deleta um post pelo id;
+- :heavy_check_mark: Lista todos os usuários criados;
+- :heavy_check_mark: Cria um novo usuário;
+- :heavy_check_mark: Atualiza um usuário pelo id;
+- :heavy_check_mark: Deleta um usuário pelo id;
+- :heavy_check_mark: Lista todos os posts dos usuários criados;
+- :heavy_check_mark: Cria um novo post de acordo com id do usuário;
+- :heavy_check_mark: Atualiza um post pelo id;
+- :heavy_check_mark: Deleta um post pelo id;
 
-## :rocket: Tecnologias
+## :rocket: Tecnologias 
 
 As seguintes ferramentas foram usadas na construção do projeto:
 
@@ -73,7 +65,7 @@ As seguintes ferramentas foram usadas na construção do projeto:
 
 ## :white_check_mark: Pré requisitos
 
-Antes de começar :checkered_flag:, você precisa ter o [Git](https://git-scm.com) e o [Node](https://nodejs.org/en/) instalados em sua maquina.
+Antes de começar:checkered_flag: você precisa ter o [Git](https://git-scm.com) e o [Node](https://nodejs.org/en/) instalados em sua maquina.
 
 ## :checkered_flag: Começando
 
@@ -85,10 +77,10 @@ $ git clone https://github.com/tatyanepgoncalves/orkut_vnw
 $ cd orkut_vnw
 
 # Instale as dependências
-$ pnpm
+$ pnpm install
 
 # Para iniciar o projeto
-$ pnpm start
+$ pnpm dev
 
 # O app vai inicializar em <http://localhost:3333>
 ```
