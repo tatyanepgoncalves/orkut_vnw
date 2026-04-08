@@ -93,9 +93,9 @@ $ pnpm start
 # O app vai inicializar em <http://localhost:3333>
 ```
 
-<!-- ## :memo: Licença
+## :memo: Licença
 
-Este projeto está sob licença MIT. Veja o arquivo [LICENSE](LICENSE.md) para mais detalhes. -->
+Este projeto está sob licença MIT. Veja o arquivo [LICENSE](./LICENSE) para mais detalhes.
 
 &#xa0;
 

@@ -12,13 +12,6 @@ const postSchema = Joi.object({
     'string.max': 'O conteúdo não pode ter mais de 500 caracteres.',
     'any.required': 'O conteúdo é obrigatório.',
   }),
-  usuario_id: Joi.number().integer().positive().required().messages({
-    'number.base': 'O ID do usuário deve ser um número.',
-    'number.empty': 'O ID do usuário é obrigatório.',
-    'number.integer': 'O ID do usuário deve ser um número inteiro.',
-    'number.positive': 'O ID do usuário deve ser um número positivo.',
-    'any.required': 'O ID do usuário é obrigatório.',
-  }),
 })
 
 export function validatePost(req, res, next) {

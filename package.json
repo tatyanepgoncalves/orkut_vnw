@@ -5,6 +5,7 @@
   "main": "server.js",
   "type": "module",
   "scripts": {
+    "start": "node server.js",
     "dev": "nodemon server.js",
     "check": "ultracite check",
     "fix": "ultracite fix"
@@ -13,13 +14,17 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcryptjs": "^3.0.3",
+    "cors": "^2.8.6",
     "dotenv": "^17.3.1",
     "express": "^5.2.1",
     "joi": "18.1.1",
+    "jsonwebtoken": "^9.0.3",
     "pg": "^8.20.0"
   },
   "devDependencies": {
     "@biomejs/biome": "2.4.7",
+    "@types/jsonwebtoken": "^9.0.10",
     "nodemon": "^3.1.14",
     "ultracite": "7.3.2"
   }

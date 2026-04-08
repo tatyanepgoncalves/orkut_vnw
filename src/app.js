@@ -1,12 +1,85 @@
+import bcrypt from 'bcryptjs'
+import cors from 'cors'
 import express from 'express'
+import jwt from 'jsonwebtoken'
 import { pool } from './config/db.js'
 import { validatePost } from './validacao/post.js'
+import { validarUsuarios } from './validacao/usuario.js'
 
 export const app = express()
 app.use(express.json())
+app.use(cors())
+
+function formatarData(data) {
+  return new Date(data).toLocaleString('pt-BR', {
+    timeZone: 'America/Sao_Paulo',
+  })
+}
 
 app.get('/', (_, res) => {
   return res.json({ message: 'Hello, World!' })
+})
+
+// Cadastro
+app.post('/usuarios', validarUsuarios, async (req, resp) => {
+  try {
+    const { nome, email, senha } = req.body
+
+    const senhaHash = await bcrypt.hash(senha, 10)
+
+    const result = await pool.query(
+      // biome-ignore lint/style/noUnusedTemplateLiteral: this code is SQL command
+      `INSERT INTO usuarios (nome, email, senha) VALUES ($1, $2, $3) RETURNING *`,
+      [nome, email, senhaHash]
+    )
+
+    return resp.status(201).json({
+      mensagem: 'Usuário criado com sucesso.',
+      usuario: result.rows[0],
+    })
+  } catch (error) {
+    return resp.status(500).json({ error: 'Erro ao criar usuário.' })
+  }
+})
+
+// Login
+app.post('/login', async (req, resp) => {
+  try {
+    const { email, senha } = req.body
+
+    const result = await pool.query(
+      // biome-ignore lint/style/noUnusedTemplateLiteral: this code is SQL command
+      `SELECT * FROM usuarios WHERE email=$1`,
+      [email]
+    )
+
+    if (result.rows.length === 0) {
+      return resp.status(404).json({ error: 'Usuário não encontrado.' })
+    }
+
+    const usuario = result.rows[0]
+    const senhaValida = await bcrypt.compare(senha, usuario.senha)
+
+    if (!senhaValida) {
+      return resp.status(401).json({ error: 'Senha incorreta.' })
+    }
+
+    const token = jwt.sign({ id: usuario.rows[0].id }, process.env.JWT_SECRET, {
+      expiresIn: '1h',
+    })
+
+    return resp.status(200).json({
+      mensagem: 'Login realizado com sucesso.',
+      usuario: {
+        id: usuario.id,
+        nome: usuario.nome,
+        email: usuario.email,
+        usuarioToken: token,
+      },
+    })
+  } catch (error) {
+    return resp.status(500).json({ error: 'Erro ao realizar login.' })
+  }
 })
 
 app.get('/usuarios', async (_, res) => {
@@ -18,30 +91,14 @@ app.get('/usuarios', async (_, res) => {
       `SELECT * FROM usuarios`
     )
 
-    return res.status(200).json(result.rows)
+    const data = result.rows.map((usuario) => ({
+      ...usuario,
+      criadoem: formatarData(usuario.criadoem),
+    }))
+
+    return res.status(200).json(data)
   } catch (error) {
-    console.log(error)
     return res.status(500).json({ error: 'Error occurred' })
-  }
-})
-
-app.post('/usuarios', async (req, resp) => {
-  try {
-    const { nome, email, senha } = req.body
-
-    const result = await pool.query(
-      // biome-ignore lint/style/noUnusedTemplateLiteral: this code is SQL command
-      `INSERT INTO usuarios (nome, email, senha) VALUES ($1, $2, $3) RETURNING *`,
-      [nome, email, senha]
-    )
-
-    return resp.status(201).json({
-      mensagem: 'Usuário criado com sucesso.',
-      usuario: result.rows[0],
-    })
-  } catch (error) {
-    console.log(error)
-    return resp.status(500).json({ error: 'Erro ao criar usuário.' })
   }
 })
 
@@ -61,7 +118,6 @@ app.put('/usuarios/:id', async (req, resp) => {
       usuario: result.rows[0],
     })
   } catch (error) {
-    console.log(error)
     return resp.status(500).json({ error: 'Erro ao atualizar usuário.' })
   }
 })
@@ -81,7 +137,6 @@ app.delete('/usuarios/:id', async (req, resp) => {
       usuario: result.rows[0],
     })
   } catch (error) {
-    console.log(error)
     return resp.status(500).json({ error: 'Erro ao excluir usuário.' })
   }
 })
@@ -102,9 +157,13 @@ app.get('/posts', async (_, res) => {
         ORDER BY post.criado_em DESC
       `)
 
-    return res.status(200).json(result.rows)
+    const data = result.rows.map((post) => ({
+      ...post,
+      criado_em: formatarData(post.criado_em),
+    }))
+
+    return res.status(200).json(data)
   } catch (error) {
-    console.log(error)
     return res.status(500).json({ error: 'Error occurred' })
   }
 })
@@ -124,7 +183,6 @@ app.post('/posts', validatePost, async (req, res) => {
       post: result.rows[0],
     })
   } catch (error) {
-    console.log(error)
     return res.status(500).json({ error: 'Erro ao criar post.' })
   }
 })
@@ -145,7 +203,6 @@ app.put('/posts/:id', validatePost, async (req, res) => {
       post: result.rows[0],
     })
   } catch (error) {
-    console.log(error)
     return res.status(500).json({ error: 'Erro ao atualizar post.' })
   }
 })
@@ -165,7 +222,6 @@ app.delete('/posts/:id', async (req, res) => {
       post: result.rows[0],
     })
   } catch (error) {
-    console.log(error)
     return res.status(500).json({ error: 'Erro ao excluir post.' })
   }
 })
