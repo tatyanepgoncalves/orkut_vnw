@@ -38,7 +38,9 @@ app.post('/usuarios', validarUsuarios, async (req, resp) => {
       usuario: result.rows[0],
     })
   } catch (error) {
-    return resp.status(500).json({ error: 'Erro ao criar usuário.' })
+    const message = error.message || 'Erro ao criar usuário.'
+
+    return resp.status(500).json({ error: message })
   }
 })
 
@@ -78,7 +80,8 @@ app.post('/login', async (req, resp) => {
       },
     })
   } catch (error) {
-    return resp.status(500).json({ error: 'Erro ao realizar login.' })
+    const message = error.message || 'Erro ao realizar login.'
+    return resp.status(500).json({ error: message })
   }
 })
 
@@ -98,7 +101,8 @@ app.get('/usuarios', async (_, res) => {
 
     return res.status(200).json(data)
   } catch (error) {
-    return res.status(500).json({ error: 'Error occurred' })
+    const message = error.message || 'Error occurred'
+    return res.status(500).json({ error: message })
   }
 })
 
@@ -118,7 +122,8 @@ app.put('/usuarios/:id', async (req, resp) => {
       usuario: result.rows[0],
     })
   } catch (error) {
-    return resp.status(500).json({ error: 'Erro ao atualizar usuário.' })
+    const message = error.message || 'Erro ao atualizar usuário.'
+    return resp.status(500).json({ error: message })
   }
 })
 
@@ -137,7 +142,8 @@ app.delete('/usuarios/:id', async (req, resp) => {
       usuario: result.rows[0],
     })
   } catch (error) {
-    return resp.status(500).json({ error: 'Erro ao excluir usuário.' })
+    const message = error.message || 'Erro ao excluir usuário'
+    return resp.status(500).json({ error: message })
   }
 })
 
@@ -164,7 +170,8 @@ app.get('/posts', async (_, res) => {
 
     return res.status(200).json(data)
   } catch (error) {
-    return res.status(500).json({ error: 'Error occurred' })
+    const message = error.message || 'Erro ao buscar posts.'
+    return res.status(500).json({ error: message })
   }
 })
 
@@ -183,7 +190,8 @@ app.post('/posts', validatePost, async (req, res) => {
       post: result.rows[0],
     })
   } catch (error) {
-    return res.status(500).json({ error: 'Erro ao criar post.' })
+    const message = error.message || 'Erro ao criar post.'
+    return res.status(500).json({ error: message })
   }
 })
 
@@ -203,7 +211,8 @@ app.put('/posts/:id', validatePost, async (req, res) => {
       post: result.rows[0],
     })
   } catch (error) {
-    return res.status(500).json({ error: 'Erro ao atualizar post.' })
+    const message = error.message || 'Erro ao atualizar post.'
+    return res.status(500).json({ error: message })
   }
 })
 
@@ -222,6 +231,7 @@ app.delete('/posts/:id', async (req, res) => {
       post: result.rows[0],
     })
   } catch (error) {
-    return res.status(500).json({ error: 'Erro ao excluir post.' })
+    const message = error.message || 'Erro ao excluir post.'
+    return res.status(500).json({ error: message })
   }
 })
