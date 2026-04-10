@@ -66,7 +66,7 @@ app.post('/login', async (req, resp) => {
       return resp.status(401).json({ error: 'Senha incorreta.' })
     }
 
-    const token = jwt.sign({ id: usuario.rows[0].id }, process.env.JWT_SECRET, {
+    const token = jwt.sign({ id: usuario.id }, process.env.JWT_SECRET, {
       expiresIn: '1h',
     })
 
