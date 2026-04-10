@@ -2,6 +2,7 @@ import bcrypt from 'bcryptjs'
 import cors from 'cors'
 import express from 'express'
 import jwt from 'jsonwebtoken'
+import auth from './auth/authLogin.js'
 import { pool } from './config/db.js'
 import { validatePost } from './validacao/post.js'
 import { validarUsuarios } from './validacao/usuario.js'
@@ -106,7 +107,7 @@ app.get('/usuarios', async (_, res) => {
   }
 })
 
-app.put('/usuarios/:id', async (req, resp) => {
+app.put('/usuarios/:id', auth, async (req, resp) => {
   try {
     const { id } = req.params
     const { nome, email, senha } = req.body
@@ -127,7 +128,7 @@ app.put('/usuarios/:id', async (req, resp) => {
   }
 })
 
-app.delete('/usuarios/:id', async (req, resp) => {
+app.delete('/usuarios/:id', auth, async (req, resp) => {
   try {
     const { id } = req.params
 
@@ -175,7 +176,7 @@ app.get('/posts', async (_, res) => {
   }
 })
 
-app.post('/posts', validatePost, async (req, res) => {
+app.post('/posts', auth, validatePost, async (req, res) => {
   try {
     const { titulo, conteudo, usuario_id } = req.body
 
@@ -195,7 +196,7 @@ app.post('/posts', validatePost, async (req, res) => {
   }
 })
 
-app.put('/posts/:id', validatePost, async (req, res) => {
+app.put('/posts/:id', auth, validatePost, async (req, res) => {
   try {
     const { id } = req.params
     const { titulo, conteudo } = req.body
@@ -216,7 +217,7 @@ app.put('/posts/:id', validatePost, async (req, res) => {
   }
 })
 
-app.delete('/posts/:id', async (req, res) => {
+app.delete('/posts/:id', auth, async (req, res) => {
   try {
     const { id } = req.params
 
