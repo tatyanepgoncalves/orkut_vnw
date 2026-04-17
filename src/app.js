@@ -157,11 +157,11 @@ app.get('/posts', async (_, res) => {
           post.id,
           usuarios.nome,
           post.conteudo,
-          post.criado_em
+          post.criadoEm
         FROM post
         JOIN usuarios
         ON post.usuario_id = usuarios.id
-        ORDER BY post.criado_em DESC
+        ORDER BY post.criadoEm DESC
       `)
 
     const data = result.rows.map((post) => ({
